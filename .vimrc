@@ -40,6 +40,7 @@ ActivateAddons jellybeans
 ActivateAddons YouCompleteMe
 ActivateAddons vim-autopep8
 ActivateAddons Supertab
+ActivateAddons surround
 
 let mapleader = ","
 let g:unite_source_grep_command = 'ag'
