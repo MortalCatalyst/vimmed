@@ -46,6 +46,23 @@ let mapleader = ","
 let g:unite_source_grep_command = 'ag'
 nnoremap <Leader>f :Unite file<CR>
 
+" https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+" splits
+set splitbelow
+set splitright
+" resizing splits
+"Max out the height of the current split
+ctrl + w _
+
+"Max out the width of the current split
+ctrl + w |
+
+"Normalize all split sizes, which is very handy when resizing terminal
+ctrl + w =
 
 if has("gui_running")
 	set lines=50 columns=120
@@ -79,6 +96,8 @@ let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
+" Syntastic
+let g:syntastic_python_checker_args='-d E0602'
 " copy and paste
 set clipboard+=unnamedplus  " use the clipboards of vim and win
 vmap <C-c> "+yi
