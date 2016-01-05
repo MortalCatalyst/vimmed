@@ -3,7 +3,11 @@ set nocompatible | filetype indent plugin on | syn on
 
 fun! SetupVAM()
 	let c = get(g:, 'vim_addon_manager', {})
-	let g:vim_addon_manager = c
+	let g:vim_addon_manager = {
+		\'shell_commands_run_method': 'system',
+    		\'auto_install': 1,
+    		\'log_to_buf': 1,
+		\} 
 	let c.plugin_root_dir = expand('$HOME', 1) . '/.vim/vim-addons'
 	let &rtp.=(empty(&rtp)?'':',').c.plugin_root_dir.'/vim-addon-manager'
 	" let g:vim_addon_manager = { your config here see "commented version" example and help
