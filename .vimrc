@@ -7,7 +7,7 @@ fun! SetupVAM()
 		\'shell_commands_run_method': 'system',
     		\'auto_install': 1,
     		\'log_to_buf': 1,
-		\} 
+		\}
 	let c.plugin_root_dir = expand('$HOME', 1) . '/.vim/vim-addons'
 	let &rtp.=(empty(&rtp)?'':',').c.plugin_root_dir.'/vim-addon-manager'
 	" let g:vim_addon_manager = { your config here see "commented version" example and help
@@ -45,10 +45,10 @@ ActivateAddons YouCompleteMe
 ActivateAddons vim-autopep8
 ActivateAddons Supertab
 ActivateAddons surround
+ActivateAddons vimproc
+ActivateAddons ag
 
 let mapleader = ","
-let g:unite_source_grep_command = 'ag'
-nnoremap <Leader>f :Unite file<CR>
 
 " https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally
 nnoremap <C-J> <C-W><C-J>
@@ -62,19 +62,118 @@ set splitright
 if has("gui_running")
 	set lines=50 columns=120
         set guioptions-=T  " no toolbar
-	colorscheme jellybeans 
+	colorscheme jellybeans
 else
 	if exists("+lines")
 		colorscheme 256-jungle
 		set lines=40
 	endif
 	if exists("+columns")
-		set columns=80
+		set columns=120
 	endif
 	if &diff
 		let &columns = ((&columns*2 > 240)? 240: &columns*2)
 	endif
 endif
+
+syntax on
+set number
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+set shiftwidth=4
+set smartindent
+set expandtab
+set showcmd
+set incsearch
+set mouse=a
+set completeopt=menu,menuone,longest
+set pumheight=15
+set wildmenu
+" from https://github.com/bling/dotvim/blob/master/vimrc
+
+set timeoutlen=300                                  "mapping timeout
+set ttimeoutlen=50                                  "keycode timeout
+
+set mouse=a                                         "enable mouse
+set mousehide                                       "hide when characters are typed
+set history=1000                                    "number of command lines to remember
+set ttyfast                                         "assume fast terminal connection
+set viewoptions=folds,options,cursor,unix,slash     "unix/windows compatibility
+set encoding=utf-8                                  "set encoding for text
+
+
+set hidden                                          "allow buffer switching without saving
+set autoread                                        "auto reload if file saved externally
+set fileformats+=mac                                "add mac to auto-detection of file format line endings
+set nrformats-=octal                                "always assume decimal numbers
+set showcmd
+set tags=tags;/
+set showfulltag
+set modeline
+set modelines=5
+" whitespace
+set backspace=indent,eol,start                      "allow backspacing everything in insert mode
+set autoindent                                      "automatically indent to match adjacent lines
+set expandtab                                       "spaces instead of tabs
+set smarttab                                        "use shiftwidth to enter tabs
+set scrolloff=1                                     "always show content after scroll
+set scrolljump=5                                    "minimum number of lines to scroll
+set display+=lastline
+set wildmenu                                        "show list for autocomplete
+set wildmode=list:full
+set wildignorecase
+
+set noswapfile
+set splitbelow
+set splitright
+set showmatch                                       "automatically highlight matching braces/brackets/etc.
+set matchtime=2                                     "tens of a second to show matching parentheses
+set number
+" smash escape
+inoremap jk <esc>
+inoremap kj <esc>
+
+" change cursor position in insert mode
+inoremap <C-h> <left>
+inoremap <C-l> <right>
+
+autocmd FileType js,scss,css autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+autocmd FileType css,scss setlocal foldmethod=marker foldmarker={,}
+autocmd FileType css,scss nnoremap <silent> <leader>S vi{:sort<CR>
+autocmd FileType python setlocal foldmethod=indent
+autocmd FileType markdown setlocal nolist
+autocmd FileType vim setlocal fdm=indent keywordprg=:help
+
+" unite
+call unite#custom#source('file_rec, file_rec/async, file_rec/git', 'matchers', ['converter_relative_word', 'matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#custom#profile('default', 'context.smartcase', 1)
+call unite#custom#profile('default', 'context.ignorecase', 1)
+let g:unite_prompt = '» '
+let g:unite_source_history_yank_enable = 1
+
+if executable('ag')
+    let g:unite_source_rec_async_command = 'ag --nocolor --nogroup --hidden -g ""'
+    let g:unite_source_grep_command = 'ag'
+    let g:unite_source_grep_default_opts = '--nocolor --nogroup --hidden'
+    let g:unite_source_grep_recursive_opt=''
+endif
+let g:unite_source_rec_max_cache_files=5000
+
+
+"nnoremap <leader>f :Unite file_rec/async:!<cr>
+"nnoremap <leader>fs :Unite file_rec/async -default-action=split
+"nnoremap <space>/ :Unite grep:.<cr>
+"nnoremap <space>y :Unite history/yank<cr>
+nnoremap <space>s :Unite -quick-match buffer<cr>
+
+nnoremap <Space>p :Unite -start-insert -no-split -no-resize file_rec/async<cr>
+nnoremap <Space>f :Unite -start-insert -no-split -no-resize file file/new directory/new<cr>
+nnoremap <Space>b :Unite -start-insert -no-split -no-resize buffer<cr>
+nnoremap <Space>y :Unite -start-insert -no-split -no-resize history/yank<cr>
+nnoremap <Space>o :Unite -start-insert -no-split -no-resize outline<cr>
+nnoremap <Space>/ :Unite -start-insert -no-split -no-resize grep:.<cr>
 
 imap <expr> <C-Z> emmet#expandAbbrIntelligent("\<C-Z>")
 " make YCM compatible with Ultisnips
@@ -93,6 +192,7 @@ let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 " Syntastic
 let g:syntastic_python_pylint_args='-d E0602 -f parseable -r n -i y'
+let g:syntastic_python_pylint_args='-d E1601 -f parseable -r n -i y'
 " copy and paste
 set clipboard+=unnamedplus  " use the clipboards of vim and win
 vmap <C-c> "+yi
