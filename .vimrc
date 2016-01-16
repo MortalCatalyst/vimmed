@@ -30,6 +30,7 @@ ActivateAddons Syntastic
 ActivateAddons trailing-whitespace
 ActivateAddons 256-jungle
 ActivateAddons css_color_preview
+ActivateAddons vim-css3-syntax
 "ActivateAddons neocomplete
 ActivateAddons delimitMate
 ActivateAddons virtualenv
@@ -48,6 +49,8 @@ ActivateAddons surround
 ActivateAddons vimproc
 ActivateAddons ag
 
+au BufEnter *.css set nocindent
+au BufLeave *.css set autoindent
 let mapleader = ","
 
 " https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally
@@ -217,10 +220,10 @@ let g:EasyMotion_smartcase = 1
 "
 let g:syntastic_javascript_checkers = ['jscs']
 "
-autocmd VimEnter * wincmd p
+"autocmd VimEnter * wincmd p
 "
-nmap <silent> <C-h> :wincmd h<CR>
-nmap <silent> <C-l> :wincmd l<CR>
+"nmap <silent> <C-h> :wincmd h<CR>
+"nmap <silent> <C-l> :wincmd l<CR>
 
 
 noremap <F3> :Autoformat<CR>
@@ -257,6 +260,12 @@ let g:pymode_run_bind = "<C-S-e>"
 " "
 " " " Override view python doc key shortcut to Ctrl-Shift-d
 let g:pymode_doc_bind = "<C-S-d>"
+" turn off pylint unless toggled
+let g:pymode_lint_write = 0       "turn off running pylint on file save
+nnoremap <leader>p :PyLint<cr>    "pressing ,p will run plyint on current buffer
+" let g:pymode_lint_options_pep8 = {'max_line_length': g:pymode_options_max_line_length})
+let g:pymode_lint_options_pyflakes = { 'builtins': '_' }
+let g:pymode_lint_options_mccabe = { 'complexity': 12 }
 
 " https://github.com/airblade/vim-rooter
 let g:rooter_autocmd_patterns = '*.git,*.js'
