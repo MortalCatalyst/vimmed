@@ -41,6 +41,7 @@ ActivateAddons UltiSnips
 ActivateAddons vim-snippets
 ActivateAddons vim-darksea
 ActivateAddons jellybeans
+ActivateAddons  
 "ActivateAddons neosnippet
 ActivateAddons YouCompleteMe
 ActivateAddons vim-autopep8
@@ -48,11 +49,22 @@ ActivateAddons Supertab
 ActivateAddons surround
 ActivateAddons vimproc
 ActivateAddons ag
-
+ActivateAddons vim-django
+call vam#ActivateAddons(['github:scrooloose/nerdtree'])
+call vam#ActivateAddons(['github:actionshrimp/vim-xpath'])
+call vam#ActivateAddons(['github:jeroenp/vim-xquery-syntax'])
+call vam#ActivateAddons(['github:sukima/xmledit'])
 au BufEnter *.css set nocindent
 au BufLeave *.css set autoindent
 let mapleader = ","
 
+"nerdtree
+map <C-n> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+autocmd FileType python set sw=4
+autocmd FileType python set ts=4
+autocmd FileType python set sts=4
 " https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -140,6 +152,11 @@ inoremap kj <esc>
 " change cursor position in insert mode
 inoremap <C-h> <left>
 inoremap <C-l> <right>
+
+" django settings
+let g:django_projects = '~/Projects' "Sets all projects under project
+let g:django_activate_virtualenv = 1 "Try to activate the associated virtualenv
+let g:django_activate_nerdtree = 1 "Try to open nerdtree at the project root.
 
 autocmd FileType js,scss,css autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 autocmd FileType css,scss setlocal foldmethod=marker foldmarker={,}
