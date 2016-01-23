@@ -41,7 +41,6 @@ ActivateAddons UltiSnips
 ActivateAddons vim-snippets
 ActivateAddons vim-darksea
 ActivateAddons jellybeans
-ActivateAddons  
 "ActivateAddons neosnippet
 ActivateAddons YouCompleteMe
 ActivateAddons vim-autopep8
@@ -50,6 +49,7 @@ ActivateAddons surround
 ActivateAddons vimproc
 ActivateAddons ag
 ActivateAddons vim-django
+call vam#ActivateAddons(['github:elzr/vim-json'])
 call vam#ActivateAddons(['github:scrooloose/nerdtree'])
 call vam#ActivateAddons(['github:actionshrimp/vim-xpath'])
 call vam#ActivateAddons(['github:jeroenp/vim-xquery-syntax'])
