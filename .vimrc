@@ -54,6 +54,16 @@ call vam#ActivateAddons(['github:scrooloose/nerdtree'])
 call vam#ActivateAddons(['github:actionshrimp/vim-xpath'])
 call vam#ActivateAddons(['github:jeroenp/vim-xquery-syntax'])
 call vam#ActivateAddons(['github:sukima/xmledit'])
+call vam#ActivateAddons(['github:flazz/vim-colorschemes'])
+call vam#ActivateAddons(['github:jeetsukumaran/vim-buffergator'])
+
+" buffergator
+"- Use `<Leader>b` (typically: `\b`) to open a window listing all buffers. In this
+   " window, you can use normal movement keys to select a buffer and then:
+   " - <ENTER> to edit the selected buffer in the previous window
+   " - <C-V> to edit the selected buffer in a new vertical split
+   " - <C-S> to edit the selected buffer in a new horizontal split
+   " - <C-T> to edit the selected buffer in a new tab page
 au BufEnter *.css set nocindent
 au BufLeave *.css set autoindent
 let mapleader = ","
@@ -77,7 +87,7 @@ set splitright
 if has("gui_running")
 	set lines=50 columns=120
         set guioptions-=T  " no toolbar
-	colorscheme jellybeans
+	colorscheme candy 
 else
 	if exists("+lines")
 		colorscheme 256-jungle
