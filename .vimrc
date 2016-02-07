@@ -19,7 +19,7 @@ fun! SetupVAM()
 	" Also See "plugins-per-line" below
 endfun
 call SetupVAM()
-ActivateAddons Python-mode-klen
+"ActivateAddons Python-mode-klen
 ActivateAddons unite
 ActivateAddons fugitive
 ActivateAddons vim-task
@@ -32,6 +32,7 @@ ActivateAddons 256-jungle
 ActivateAddons css_color_preview
 ActivateAddons vim-css3-syntax
 "ActivateAddons neocomplete
+
 ActivateAddons delimitMate
 ActivateAddons virtualenv
 ActivateAddons vim-rooter
@@ -50,11 +51,23 @@ ActivateAddons vimproc
 ActivateAddons ag
 ActivateAddons vim-django
 ActivateAddons Pydiction
+ActivateAddons SimpylFold
+call vam#ActivateAddons(['github:hynek/vim-python-pep8-indent'])
 call vam#ActivateAddons(['github:elzr/vim-json'])
 call vam#ActivateAddons(['github:scrooloose/nerdtree'])
 call vam#ActivateAddons(['github:actionshrimp/vim-xpath'])
 call vam#ActivateAddons(['github:jeroenp/vim-xquery-syntax'])
 call vam#ActivateAddons(['github:sukima/xmledit'])
+call vam#ActivateAddons(['github:flazz/vim-colorschemes'])
+call vam#ActivateAddons(['github:jeetsukumaran/vim-buffergator'])
+call vam#ActivateAddons(['github:altercation/vim-colors-solarized'])
+" buffergator
+"- Use `<Leader>b` (typically: `\b`) to open a window listing all buffers. In this
+   " window, you can use normal movement keys to select a buffer and then:
+   " - <ENTER> to edit the selected buffer in the previous window
+   " - <C-V> to edit the selected buffer in a new vertical split
+   " - <C-S> to edit the selected buffer in a new horizontal split
+   " - <C-T> to edit the selected buffer in a new tab page
 au BufEnter *.css set nocindent
 au BufLeave *.css set autoindent
 let mapleader = ","
@@ -63,9 +76,16 @@ let mapleader = ","
 map <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-autocmd FileType python set sw=4
-autocmd FileType python set ts=4
-autocmd FileType python set sts=4
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+set list listchars=tab:▷⋅,trail:⋅,nbsp:⋅
+filetype plugin indent on
+au FileType py set autoindent
+au FileType py set smartindent
+au FileType py set textwidth=79 " PEP-8 Friendly
+
 " https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -78,10 +98,10 @@ set splitright
 if has("gui_running")
 	set lines=50 columns=120
         set guioptions-=T  " no toolbar
-	colorscheme jellybeans
+	colorscheme candy 
 else
 	if exists("+lines")
-		colorscheme 256-jungle
+		colorscheme solarized-dark
 		set lines=40
 	endif
 	if exists("+columns")
@@ -91,6 +111,9 @@ else
 		let &columns = ((&columns*2 > 240)? 240: &columns*2)
 	endif
 endif
+
+
+call togglebg#map("<F5>")
 
 syntax on
 set number
@@ -146,6 +169,8 @@ set splitright
 set showmatch                                       "automatically highlight matching braces/brackets/etc.
 set matchtime=2                                     "tens of a second to show matching parentheses
 set number
+
+set clipboard=unnamed
 " smash escape
 inoremap jk <esc>
 inoremap kj <esc>
@@ -168,6 +193,10 @@ autocmd FileType python setlocal foldmethod=indent
 autocmd FileType markdown setlocal nolist
 autocmd FileType vim setlocal fdm=indent keywordprg=:help
 
+
+" youcompleteme
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " unite
 call unite#custom#source('file_rec, file_rec/async, file_rec/git', 'matchers', ['converter_relative_word', 'matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
