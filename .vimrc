@@ -49,6 +49,7 @@ ActivateAddons surround
 ActivateAddons vimproc
 ActivateAddons ag
 ActivateAddons vim-django
+ActivateAddons Pydiction
 call vam#ActivateAddons(['github:elzr/vim-json'])
 call vam#ActivateAddons(['github:scrooloose/nerdtree'])
 call vam#ActivateAddons(['github:actionshrimp/vim-xpath'])
@@ -152,7 +153,9 @@ inoremap kj <esc>
 " change cursor position in insert mode
 inoremap <C-h> <left>
 inoremap <C-l> <right>
-
+"Pydiction
+let g:pydiction_location = '/home/sayth/.vim/vim-addons/Pydiction/complete-dict'
+let g:pydiction_menu_height = 3
 " django settings
 let g:django_projects = '~/Projects' "Sets all projects under project
 let g:django_activate_virtualenv = 1 "Try to activate the associated virtualenv
