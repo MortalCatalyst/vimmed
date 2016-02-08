@@ -19,8 +19,6 @@ fun! SetupVAM()
 	" Also See "plugins-per-line" below
 endfun
 call SetupVAM()
-"ActivateAddons Python-mode-klen
-ActivateAddons unite
 ActivateAddons fugitive
 ActivateAddons vim-task
 ActivateAddons vim-gitgutter
@@ -28,11 +26,8 @@ ActivateAddons vim-airline
 ActivateAddons EasyMotion
 ActivateAddons Syntastic
 ActivateAddons trailing-whitespace
-ActivateAddons 256-jungle
 ActivateAddons css_color_preview
 ActivateAddons vim-css3-syntax
-"ActivateAddons neocomplete
-
 ActivateAddons delimitMate
 ActivateAddons virtualenv
 ActivateAddons vim-rooter
@@ -40,9 +35,6 @@ ActivateAddons Emmet
 ActivateAddons vim-autoformat
 ActivateAddons UltiSnips
 ActivateAddons vim-snippets
-ActivateAddons vim-darksea
-ActivateAddons jellybeans
-"ActivateAddons neosnippet
 ActivateAddons YouCompleteMe
 ActivateAddons vim-autopep8
 ActivateAddons Supertab
@@ -50,24 +42,18 @@ ActivateAddons surround
 ActivateAddons vimproc
 ActivateAddons ag
 ActivateAddons vim-django
-ActivateAddons Pydiction
 ActivateAddons SimpylFold
 call vam#ActivateAddons(['github:hynek/vim-python-pep8-indent'])
 call vam#ActivateAddons(['github:elzr/vim-json'])
-call vam#ActivateAddons(['github:scrooloose/nerdtree'])
 call vam#ActivateAddons(['github:actionshrimp/vim-xpath'])
 call vam#ActivateAddons(['github:jeroenp/vim-xquery-syntax'])
 call vam#ActivateAddons(['github:sukima/xmledit'])
-call vam#ActivateAddons(['github:flazz/vim-colorschemes'])
 call vam#ActivateAddons(['github:jeetsukumaran/vim-buffergator'])
-call vam#ActivateAddons(['github:altercation/vim-colors-solarized'])
-" buffergator
-"- Use `<Leader>b` (typically: `\b`) to open a window listing all buffers. In this
-   " window, you can use normal movement keys to select a buffer and then:
-   " - <ENTER> to edit the selected buffer in the previous window
-   " - <C-V> to edit the selected buffer in a new vertical split
-   " - <C-S> to edit the selected buffer in a new horizontal split
-   " - <C-T> to edit the selected buffer in a new tab page
+call vam#ActivateAddons(['github:NLKNguyen/papercolor-theme'])
+call vam#ActivateAddons(['github:scrooloose/nerdcommenter'])
+call vam#ActivateAddons(['github:jeetsukumaran/vim-buffergator'])
+call vam#ActivateAddons(['github:kien/ctrlp.vim'])
+
 au BufEnter *.css set nocindent
 au BufLeave *.css set autoindent
 let mapleader = ","
@@ -96,13 +82,20 @@ set splitbelow
 set splitright
 
 if has("gui_running")
-	set lines=50 columns=120
-        set guioptions-=T  " no toolbar
-	colorscheme candy 
+	set lines=45 columns=110
+    set guioptions-=T  " no toolbar
+	set t_Co=256 
+    set background=dark 
+    colorscheme PaperColor
+    set number
 else
 	if exists("+lines")
-		colorscheme solarized-dark
-		set lines=40
+		set t_Co=256
+        set background=dark
+        colorscheme PaperColor
+        set number
+        set laststatus=2
+        set lines=40
 	endif
 	if exists("+columns")
 		set columns=120
@@ -111,9 +104,6 @@ else
 		let &columns = ((&columns*2 > 240)? 240: &columns*2)
 	endif
 endif
-
-
-call togglebg#map("<F5>")
 
 syntax on
 set number
@@ -179,8 +169,8 @@ inoremap kj <esc>
 inoremap <C-h> <left>
 inoremap <C-l> <right>
 "Pydiction
-let g:pydiction_location = '/home/sayth/.vim/vim-addons/Pydiction/complete-dict'
-let g:pydiction_menu_height = 3
+"let g:pydiction_location = '/home/sayth/.vim/vim-addons/Pydiction/complete-dict'
+"let g:pydiction_menu_height = 3
 " django settings
 let g:django_projects = '~/Projects' "Sets all projects under project
 let g:django_activate_virtualenv = 1 "Try to activate the associated virtualenv
@@ -194,38 +184,83 @@ autocmd FileType markdown setlocal nolist
 autocmd FileType vim setlocal fdm=indent keywordprg=:help
 
 
+" Setup some default ignores
+" http://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+\}
+
+" Use the nearest .git directory as the cwd
+" This makes a lot of sense if you are working on a project that is in version
+" control. It also supports works with .svn, .hg, .bzr.
+let g:ctrlp_working_path_mode = 'r'
+
+" Use a leader instead of the actual named binding
+nmap <leader>p :CtrlP<cr>
+
+" Easy bindings for its various modes
+nmap <leader>bb :CtrlPBuffer<cr>
+nmap <leader>bm :CtrlPMixed<cr>
+nmap <leader>bs :CtrlPMRU<cr>
+
+" Use the right side of the screen
+let g:buffergator_viewport_split_policy = 'R'
+
+" I want my own keymappings...
+let g:buffergator_suppress_keymaps = 1
+
+" Looper buffers
+"let g:buffergator_mru_cycle_loop = 1
+
+" Go to the previous buffer open
+nmap <leader>jj :BuffergatorMruCyclePrev<cr>
+
+" Go to the next buffer open
+nmap <leader>kk :BuffergatorMruCycleNext<cr>
+
+"  buffergator
+"- Use `<Leader>b` (typically: `\b`) to open a window listing all buffers. In this
+   " window, you can use normal movement keys to select a buffer and then:
+   " - <ENTER> to edit the selected buffer in the previous window
+   " - <C-V> to edit the selected buffer in a new vertical split
+   " - <C-S> to edit the selected buffer in a new horizontal split
+   " - <C-T> to edit the selected buffer in a new tab page
+ View the entire list of buffers open
+nmap <leader>bl :BuffergatorOpen<cr>
+
+" Shared bindings from Solution #1 from earlier
+nmap <leader>T :enew<cr>
+nmap <leader>bq :bp <BAR> bd #<cr>
+
 " youcompleteme
 let g:ycm_autoclose_preview_window_after_completion=1
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" unite
-call unite#custom#source('file_rec, file_rec/async, file_rec/git', 'matchers', ['converter_relative_word', 'matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-call unite#custom#profile('default', 'context.smartcase', 1)
-call unite#custom#profile('default', 'context.ignorecase', 1)
-let g:unite_prompt = '» '
-let g:unite_source_history_yank_enable = 1
+"" unite
+"call unite#custom#source('file_rec, file_rec/async, file_rec/git', 'matchers', ['converter_relative_word', 'matcher_fuzzy'])
+"call unite#filters#sorter_default#use(['sorter_rank'])
+"call unite#custom#profile('default', 'context.smartcase', 1)
+"call unite#custom#profile('default', 'context.ignorecase', 1)
+"let g:unite_prompt = '» '
+"let g:unite_source_history_yank_enable = 1
 
-if executable('ag')
-    let g:unite_source_rec_async_command = 'ag --nocolor --nogroup --hidden -g ""'
-    let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts = '--nocolor --nogroup --hidden'
-    let g:unite_source_grep_recursive_opt=''
-endif
-let g:unite_source_rec_max_cache_files=5000
+"if executable('ag')
+    "let g:unite_source_rec_async_command = 'ag --nocolor --nogroup --hidden -g ""'
+    "let g:unite_source_grep_command = 'ag'
+    "let g:unite_source_grep_default_opts = '--nocolor --nogroup --hidden'
+    "let g:unite_source_grep_recursive_opt=''
+"endif
+"let g:unite_source_rec_max_cache_files=5000
 
 
-"nnoremap <leader>f :Unite file_rec/async:!<cr>
-"nnoremap <leader>fs :Unite file_rec/async -default-action=split
-"nnoremap <space>/ :Unite grep:.<cr>
-"nnoremap <space>y :Unite history/yank<cr>
-nnoremap <space>s :Unite -quick-match buffer<cr>
+"nnoremap <space>s :Unite -quick-match buffer<cr>
 
-nnoremap <Space>p :Unite -start-insert -no-split -no-resize file_rec/async<cr>
-nnoremap <Space>f :Unite -start-insert -no-split -no-resize file file/new directory/new<cr>
-nnoremap <Space>b :Unite -start-insert -no-split -no-resize buffer<cr>
-nnoremap <Space>y :Unite -start-insert -no-split -no-resize history/yank<cr>
-nnoremap <Space>o :Unite -start-insert -no-split -no-resize outline<cr>
-nnoremap <Space>/ :Unite -start-insert -no-split -no-resize grep:.<cr>
+"nnoremap <Space>p :Unite -start-insert -no-split -no-resize file_rec/async<cr>
+"nnoremap <Space>f :Unite -start-insert -no-split -no-resize file file/new directory/new<cr>
+"nnoremap <Space>b :Unite -start-insert -no-split -no-resize buffer<cr>
+"nnoremap <Space>y :Unite -start-insert -no-split -no-resize history/yank<cr>
+"nnoremap <Space>o :Unite -start-insert -no-split -no-resize outline<cr>
+"nnoremap <Space>/ :Unite -start-insert -no-split -no-resize grep:.<cr>
 
 imap <expr> <C-Z> emmet#expandAbbrIntelligent("\<C-Z>")
 " make YCM compatible with Ultisnips
@@ -241,6 +276,7 @@ let g:SuperTabDefaultCompletionType = '<C-n>'
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
 
 " Syntastic
 let g:syntastic_python_pylint_args='-d E0602 -f parseable -r n -i y'
@@ -268,12 +304,6 @@ let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
 let g:EasyMotion_smartcase = 1
 "
 let g:syntastic_javascript_checkers = ['jscs']
-"
-"autocmd VimEnter * wincmd p
-"
-"nmap <silent> <C-h> :wincmd h<CR>
-"nmap <silent> <C-l> :wincmd l<CR>
-
 
 noremap <F3> :Autoformat<CR>
 
@@ -302,21 +332,21 @@ let g:syntastic_check_on_wq = 0
 let g:used_javascript_libs = 'underscore,backbone,jquery,handlebars'
 " " klen python-mode
 " " Override go-to.definition key shortcut to Ctrl-]
-let g:pymode_rope_goto_definition_bind = "<C-]>"
+"let g:pymode_rope_goto_definition_bind = "<C-]>"
 " "
 " " " Override run current python file key shortcut to Ctrl-Shift-e
-let g:pymode_run_bind = "<C-S-e>"
+"let g:pymode_run_bind = "<C-S-e>"
 " "
 " " " Override view python doc key shortcut to Ctrl-Shift-d
-let g:pymode_doc_bind = "<C-S-d>"
+"let g:pymode_doc_bind = "<C-S-d>"
 " turn off pylint unless toggled
-let g:pymode_lint_write = 0       "turn off running pylint on file save
-nnoremap <leader>p :PyLint<cr>    "pressing ,p will run plyint on current buffer
+"let g:pymode_lint_write = 0       "turn off running pylint on file save
+"nnoremap <leader>p :PyLint<cr>    "pressing ,p will run plyint on current buffer
 " let g:pymode_lint_options_pep8 = {'max_line_length': g:pymode_options_max_line_length})
-let g:pymode_lint_options_pyflakes = { 'builtins': '_' }
-let g:pymode_lint_options_mccabe = { 'complexity': 12 }
+"let g:pymode_lint_options_pyflakes = { 'builtins': '_' }
+"let g:pymode_lint_options_mccabe = { 'complexity': 12 }
 
 " https://github.com/airblade/vim-rooter
-let g:rooter_autocmd_patterns = '*.git,*.js'
+"let g:rooter_autocmd_patterns = '*.git,*.js'
 
-let g:acp_enableAtStartup = 0
+"let g:acp_enableAtStartup = 0
