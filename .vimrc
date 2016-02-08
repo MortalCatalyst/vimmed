@@ -59,8 +59,8 @@ au BufLeave *.css set autoindent
 let mapleader = ","
 
 "nerdtree
-map <C-n> :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+"map <C-n> :NERDTreeToggle<CR>
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 set tabstop=4
 set shiftwidth=4
@@ -160,7 +160,6 @@ set showmatch                                       "automatically highlight mat
 set matchtime=2                                     "tens of a second to show matching parentheses
 set number
 
-set clipboard=unnamed
 " smash escape
 inoremap jk <esc>
 inoremap kj <esc>
@@ -168,9 +167,6 @@ inoremap kj <esc>
 " change cursor position in insert mode
 inoremap <C-h> <left>
 inoremap <C-l> <right>
-"Pydiction
-"let g:pydiction_location = '/home/sayth/.vim/vim-addons/Pydiction/complete-dict'
-"let g:pydiction_menu_height = 3
 " django settings
 let g:django_projects = '~/Projects' "Sets all projects under project
 let g:django_activate_virtualenv = 1 "Try to activate the associated virtualenv
@@ -219,14 +215,7 @@ nmap <leader>jj :BuffergatorMruCyclePrev<cr>
 " Go to the next buffer open
 nmap <leader>kk :BuffergatorMruCycleNext<cr>
 
-"  buffergator
-"- Use `<Leader>b` (typically: `\b`) to open a window listing all buffers. In this
-   " window, you can use normal movement keys to select a buffer and then:
-   " - <ENTER> to edit the selected buffer in the previous window
-   " - <C-V> to edit the selected buffer in a new vertical split
-   " - <C-S> to edit the selected buffer in a new horizontal split
-   " - <C-T> to edit the selected buffer in a new tab page
- View the entire list of buffers open
+"" View the entire list of buffers open
 nmap <leader>bl :BuffergatorOpen<cr>
 
 " Shared bindings from Solution #1 from earlier
@@ -236,31 +225,6 @@ nmap <leader>bq :bp <BAR> bd #<cr>
 " youcompleteme
 let g:ycm_autoclose_preview_window_after_completion=1
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-"" unite
-"call unite#custom#source('file_rec, file_rec/async, file_rec/git', 'matchers', ['converter_relative_word', 'matcher_fuzzy'])
-"call unite#filters#sorter_default#use(['sorter_rank'])
-"call unite#custom#profile('default', 'context.smartcase', 1)
-"call unite#custom#profile('default', 'context.ignorecase', 1)
-"let g:unite_prompt = '» '
-"let g:unite_source_history_yank_enable = 1
-
-"if executable('ag')
-    "let g:unite_source_rec_async_command = 'ag --nocolor --nogroup --hidden -g ""'
-    "let g:unite_source_grep_command = 'ag'
-    "let g:unite_source_grep_default_opts = '--nocolor --nogroup --hidden'
-    "let g:unite_source_grep_recursive_opt=''
-"endif
-"let g:unite_source_rec_max_cache_files=5000
-
-
-"nnoremap <space>s :Unite -quick-match buffer<cr>
-
-"nnoremap <Space>p :Unite -start-insert -no-split -no-resize file_rec/async<cr>
-"nnoremap <Space>f :Unite -start-insert -no-split -no-resize file file/new directory/new<cr>
-"nnoremap <Space>b :Unite -start-insert -no-split -no-resize buffer<cr>
-"nnoremap <Space>y :Unite -start-insert -no-split -no-resize history/yank<cr>
-"nnoremap <Space>o :Unite -start-insert -no-split -no-resize outline<cr>
-"nnoremap <Space>/ :Unite -start-insert -no-split -no-resize grep:.<cr>
 
 imap <expr> <C-Z> emmet#expandAbbrIntelligent("\<C-Z>")
 " make YCM compatible with Ultisnips
@@ -330,23 +294,3 @@ let g:syntastic_check_on_wq = 0
 
 " javascript-libraries-syntax
 let g:used_javascript_libs = 'underscore,backbone,jquery,handlebars'
-" " klen python-mode
-" " Override go-to.definition key shortcut to Ctrl-]
-"let g:pymode_rope_goto_definition_bind = "<C-]>"
-" "
-" " " Override run current python file key shortcut to Ctrl-Shift-e
-"let g:pymode_run_bind = "<C-S-e>"
-" "
-" " " Override view python doc key shortcut to Ctrl-Shift-d
-"let g:pymode_doc_bind = "<C-S-d>"
-" turn off pylint unless toggled
-"let g:pymode_lint_write = 0       "turn off running pylint on file save
-"nnoremap <leader>p :PyLint<cr>    "pressing ,p will run plyint on current buffer
-" let g:pymode_lint_options_pep8 = {'max_line_length': g:pymode_options_max_line_length})
-"let g:pymode_lint_options_pyflakes = { 'builtins': '_' }
-"let g:pymode_lint_options_mccabe = { 'complexity': 12 }
-
-" https://github.com/airblade/vim-rooter
-"let g:rooter_autocmd_patterns = '*.git,*.js'
-
-"let g:acp_enableAtStartup = 0
