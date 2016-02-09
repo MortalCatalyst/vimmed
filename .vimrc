@@ -83,7 +83,7 @@ set splitbelow
 set splitright
 
 if has("gui_running")
-	set lines=45 columns=110
+	set lines=45 columns=86
     set guioptions-=T  " no toolbar
 	set t_Co=256 
     set background=dark 
@@ -99,7 +99,7 @@ else
         set lines=40
 	endif
 	if exists("+columns")
-		set columns=120
+		set columns=86
 	endif
 	if &diff
 		let &columns = ((&columns*2 > 240)? 240: &columns*2)
