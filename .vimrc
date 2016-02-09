@@ -53,6 +53,7 @@ call vam#ActivateAddons(['github:NLKNguyen/papercolor-theme'])
 call vam#ActivateAddons(['github:scrooloose/nerdcommenter'])
 call vam#ActivateAddons(['github:jeetsukumaran/vim-buffergator'])
 call vam#ActivateAddons(['github:kien/ctrlp.vim'])
+call vam#ActivateAddons(['github:davidhalter/jedi-vim'])
 
 au BufEnter *.css set nocindent
 au BufLeave *.css set autoindent
@@ -179,6 +180,10 @@ autocmd FileType python setlocal foldmethod=indent
 autocmd FileType markdown setlocal nolist
 autocmd FileType vim setlocal fdm=indent keywordprg=:help
 
+"jedi
+let g:jedi#use_tabs_not_buffers = 1
+" don't see docstring
+autocmd FileType python setlocal completeopt-=preview
 
 " Setup some default ignores
 " http://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/
