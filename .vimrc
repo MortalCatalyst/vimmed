@@ -54,7 +54,11 @@ call vam#ActivateAddons(['github:scrooloose/nerdcommenter'])
 call vam#ActivateAddons(['github:jeetsukumaran/vim-buffergator'])
 call vam#ActivateAddons(['github:kien/ctrlp.vim'])
 call vam#ActivateAddons(['github:davidhalter/jedi-vim'])
-
+call vam#ActivateAddons(['github:chrisbra/csv.vim'])
+" call vam#ActivateAddons(['github:mileszs/ack.vim'])
+call vam#ActivateAddons(['github:vim-scripts/dbext.vim'])
+call vam#ActivateAddons(['github:Glench/Vim-Jinja2-Syntax'])
+call vam#ActivateAddons(['github:lepture/vim-jinja'])
 au BufEnter *.css set nocindent
 au BufLeave *.css set autoindent
 let mapleader = ","
@@ -85,8 +89,8 @@ set splitright
 if has("gui_running")
 	set lines=45 columns=86
     set guioptions-=T  " no toolbar
-	set t_Co=256 
-    set background=dark 
+	set t_Co=256
+    set background=dark
     colorscheme PaperColor
     set number
 else
@@ -143,7 +147,7 @@ set showfulltag
 set modeline
 set modelines=5
 " whitespace
-set backspace=indent,eol,start                      "allow backspacing everything in insert mode
+" set backspace=indent,eol,start                      "allow backspacing everything in insert mode
 set autoindent                                      "automatically indent to match adjacent lines
 set expandtab                                       "spaces instead of tabs
 set smarttab                                        "use shiftwidth to enter tabs
@@ -184,6 +188,10 @@ autocmd FileType vim setlocal fdm=indent keywordprg=:help
 let g:jedi#use_tabs_not_buffers = 1
 " don't see docstring
 autocmd FileType python setlocal completeopt-=preview
+
+" simplyFold
+autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
+autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
 
 " Setup some default ignores
 " http://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/
@@ -226,6 +234,15 @@ nmap <leader>bl :BuffergatorOpen<cr>
 " Shared bindings from Solution #1 from earlier
 nmap <leader>T :enew<cr>
 nmap <leader>bq :bp <BAR> bd #<cr>
+
+" ack.vim ag fallback
+"if executable('ag')
+""  let g:ackprg = 'ag --vimgrep'
+"endif
+
+" let g:ackprg = 'ag --nogroup --nocolor --column'
+" ag
+let g:ag_working_path_mode="r"
 
 " youcompleteme
 let g:ycm_autoclose_preview_window_after_completion=1
@@ -299,3 +316,27 @@ let g:syntastic_check_on_wq = 0
 
 " javascript-libraries-syntax
 let g:used_javascript_libs = 'underscore,backbone,jquery,handlebars'
+
+" dbext
+ augroup project1
+         au!
+         " Automatically choose the correct dbext profile
+         autocmd BufRead */projectX/sql/* DBSetOption profile=myASA
+     augroup end
+
+     augroup project2
+         au!
+         " Automatically choose the correct dbext profile
+         autocmd BufRead */projectY/* DBSetOption profile=myORA
+     augroup end
+" Fix backsapce and delete http://vim.wikia.com/wiki/Backspace_and_delete_problemsv
+:fixdel
+
+" trim trailing whitespace on save http://vim.wikia.com/wiki/Remove_unwanted_spaces
+autocmd BufWritePre * :%s/\s\+$//e
+
+" Map run python to F5i http://vim.wikia.com/wiki/Python_-_check_syntax_and_run_script and http://stackoverflow.com/a/12524133/461887
+nnoremap <silent> <F5> :!python %<CR>
+
+" make html files featre jinja
+au BufNewFile,BufRead *.html,*.htm,*.shtml,*.stm set ft=jinja
