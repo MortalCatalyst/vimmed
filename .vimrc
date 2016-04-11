@@ -35,7 +35,8 @@ ActivateAddons Emmet
 ActivateAddons vim-autoformat
 ActivateAddons UltiSnips
 ActivateAddons vim-snippets
-ActivateAddons YouCompleteMe
+"ActivateAddons YouCompleteMe
+ActivateAddons neocomplete
 ActivateAddons vim-autopep8
 ActivateAddons Supertab
 ActivateAddons surround
